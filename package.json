@@ -1,0 +1,39 @@
+{
+  "name": "crc-backend",
+  "version": "0.0.1",
+  "description": "Backend for WIS Software coolers",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "dev": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodeAnnihilator/CoolersRoomControl-Server.git"
+  },
+  "keywords": [
+    "cooler",
+    "conditioner"
+  ],
+  "author": "CodeAnnihilator, Gerasimov94",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CodeAnnihilator/CoolersRoomControl-Server/issues"
+  },
+  "homepage": "https://github.com/CodeAnnihilator/CoolersRoomControl-Server#readme",
+  "devDependencies": {
+    "@babel/cli": "7.2.3",
+    "@babel/core": "7.3.4",
+    "@babel/preset-env": "7.3.4",
+    "eslint": "5.14.1",
+    "eslint-plugin-import": "2.16.0"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.2.5",
+    "@babel/register": "^7.0.0",
+    "body-parser": "^1.18.3",
+    "express": "4.16.4",
+    "mongoose": "^5.4.16",
+    "morgan": "^1.9.1"
+  }
+}
