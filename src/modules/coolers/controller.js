@@ -1,37 +1,32 @@
 import Cooler from './model';
-import {createCoolerValidator} from './validation';
-import {validationResult} from 'express-validator/check';
-
-const createCooler = async (req, res) => {
-	try {
-		const errors = validationResult(req);
-
-		if (!errors.isEmpty()) {
-			return res.status(422).json({error: true, errors: errors.array()});
-		}
-
-		const {model, brand, power, img, description} = req.body;
-
-		const cooler = new Cooler({model, description, brand, power: Number(power), img});
-
-		return res.status(200).json({error: false, cooler: await cooler.save()});
-	} catch (error) {
-		return res.status(400).json({error: true, message: 'error in cooler creation func'});
-	}
-};
 
 const getCoolers = async (_, res) => {
-	try {
-		return res.status(200).json({error: false, coolers: await Cooler.find({})});
-	} catch (error) {
-		return res.status(400).json({error: true, message: 'cannot get all coolers'});
-	}
+	const coolers = await Cooler.find({});
+	res.status(200).json(coolers);
+};
+
+const saveCooler = async (req, res) => {
+	const coolerInstance = new Cooler(req.body);
+	const newCooler = await coolerInstance.save();
+	res.status(200).json(newCooler);
+};
+
+const getCoolerByID = async (req, res) => {
+	const {coolerId} = req.params;
+	const cooler = await Cooler.findById(coolerId);
+	res.status(200).json(cooler);
+};
+
+const updateCoolerByID = async (req, res) => {
+	const {coolerId} = req.params;
+	const newCooler = req.body;
+	await Cooler.findByIdAndUpdate(coolerId, newCooler);
+	res.status(200).json({success: true});
 };
 
 export default {
 	getCoolers,
-	createCooler: [
-		...createCoolerValidator,
-		createCooler
-	]
+	saveCooler,
+	getCoolerByID,
+	updateCoolerByID
 };

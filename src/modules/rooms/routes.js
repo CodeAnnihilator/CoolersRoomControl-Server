@@ -1,9 +1,18 @@
-import {Router} from 'express';
-import RoomsController from './controller';
+import promiseRouter from 'express-promise-router';
 
-const router = new Router();
+import controller from './controller';
 
-router.get('/rooms', RoomsController.getRooms);
-router.post('/rooms/save', RoomsController.saveRoom);
+const router = new promiseRouter();
+
+router.route('/rooms')
+	.get(controller.getRooms)
+	.post(controller.saveRoom);
+
+router.route('/rooms/:roomId')
+	.get(controller.getRoom)
+	.patch(controller.updateRoom);
+
+router.route('/rooms/:roomId/coolers')
+	.post(controller.saveCoolerInRoom);
 
 export default router;

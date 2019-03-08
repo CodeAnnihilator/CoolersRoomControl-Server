@@ -1,38 +1,50 @@
-
 import Room from './model';
-import {saveRoomValidator} from './validation';
-import {validationResult} from 'express-validator/check';
+import Cooler from '../coolers/model';
 
 const getRooms = async (_, res) => {
-	try {
-		return res.status(200).json({error: false, rooms: await Room.find({})});
-	} catch (error) {
-		return res.status(400).json({error: true, message: 'cannot get rooms'});
-	}
+	const rooms = await Room.find({});
+	res.status(200).json(rooms);
 };
 
 const saveRoom = async (req, res) => {
-	try {
-		const errors = validationResult(req);
+	const newRoom = new Room(req.body);
+	const room = await newRoom.save();
+	res.status(200).json(room);
+};
 
-		if (!errors.isEmpty()) {
-			return res.status(422).json({error: true, errors: errors.array()});
-		}
+const getRoom = async (req, res) => {
+	const {roomId} = req.params;
+	const room = await Room.findById(roomId);
+	res.status(200).json(room);
+};
 
-		const {coolers, description} = req.body;
+const updateRoom = async (req, res) => {
+	const {roomId} = req.params;
+	const newRoom = req.body;
+	await Room.findByIdAndUpdate(roomId, newRoom);
+	res.status(200).json({success: true});
+};
 
-		const roomInstance = new Room({coolers, description});
+const saveCoolerInRoom = async (req, res) => {
+	const {roomId} = req.params;
+	const coolersIds = req.body.coolers;
 
-		return res.status(200).json({error: false, room: await roomInstance.save()});
-	} catch (error) {
-		return res.status(400).json({error: true, message: 'cannot save room'});
-	}
+	const coolers = await Cooler.find({_id: {$in: coolersIds}});
+	const room = await Room.findById(roomId);
+
+	coolers.forEach(cooler => cooler.room = room);
+	await Cooler.updateMany(coolers);
+
+	room.coolers = coolers.map(cooler => cooler._id);
+	await room.save();
+
+	res.status(200).json(room);
 };
 
 export default {
 	getRooms,
-	saveRoom: [
-		saveRoomValidator,
-		saveRoom
-	]
+	saveRoom,
+	getRoom,
+	updateRoom,
+	saveCoolerInRoom
 };

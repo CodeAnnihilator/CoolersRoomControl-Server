@@ -1,6 +1,6 @@
 import mongoose, {Schema} from 'mongoose';
 
-const CoolerSchema = new Schema({
+const coolerSchema = new Schema({
 	model: {
 		type: String,
 		required: true
@@ -19,7 +19,11 @@ const CoolerSchema = new Schema({
 	img: {
 		type: String,
 		required: true
+	},
+	room: {
+		type: Schema.Types.ObjectId,
+		ref: 'room'
 	}
 });
 
-export default mongoose.model('Coolers', CoolerSchema);
+export default mongoose.model('cooler', coolerSchema);

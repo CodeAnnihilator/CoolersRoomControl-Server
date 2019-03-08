@@ -34,9 +34,10 @@
     "@babel/register": "7.0.0",
     "body-parser": "1.18.3",
     "express": "4.16.4",
+    "express-promise-router": "3.0.3",
     "express-validator": "5.3.1",
     "mongoose": "5.4.16",
     "morgan": "1.9.1",
-    "swagger-ui-express": "^4.0.2"
+    "swagger-ui-express": "4.0.2"
   }
 }

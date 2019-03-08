@@ -1,13 +1,13 @@
 import mongoose, {Schema} from 'mongoose';
 
-const RoomSchema = new Schema({
+const roomSchema = new Schema({
 	coolers: [{
 		type: Schema.Types.ObjectId,
-		ref: 'Coolers'
+		ref: 'cooler'
 	}],
 	description: {
 		type: String
 	}
 });
 
-export default mongoose.model('Rooms', RoomSchema);
+export default mongoose.model('room', roomSchema);
