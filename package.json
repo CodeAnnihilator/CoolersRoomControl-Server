@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "test",
-    "dev": "node index.js"
+    "dev": "NODE_ENV=development nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -26,14 +26,18 @@
     "@babel/core": "7.3.4",
     "@babel/preset-env": "7.3.4",
     "eslint": "5.14.1",
-    "eslint-plugin-import": "2.16.0"
+    "eslint-plugin-import": "2.16.0",
+    "nodemon": "1.18.10"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.2.5",
-    "@babel/register": "^7.0.0",
-    "body-parser": "^1.18.3",
+    "@babel/polyfill": "7.2.5",
+    "@babel/register": "7.0.0",
+    "body-parser": "1.18.3",
     "express": "4.16.4",
-    "mongoose": "^5.4.16",
-    "morgan": "^1.9.1"
+    "express-promise-router": "3.0.3",
+    "express-validator": "5.3.1",
+    "mongoose": "5.4.16",
+    "morgan": "1.9.1",
+    "swagger-ui-express": "4.0.2"
   }
 }

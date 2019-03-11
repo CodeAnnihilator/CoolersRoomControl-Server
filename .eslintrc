@@ -8,10 +8,16 @@
     "rules": {
 		"indent": ["warn", "tab", {"SwitchCase": 1}],
 		"no-tabs": 0,
-		"no-console": "warn"
+		"no-console": "warn",
+		"quotes": ["error", "single"],
+		"semi": ["error", "always"],
+		"comma-dangle": "error",
+		"no-cond-assign": ["error", "always"],
+		"object-curly-spacing": ["error", "never"],
+		"no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 1 }]
     },
     "env": {
 		"node": true,
 		"es6": true
-    }
+	}
 }
