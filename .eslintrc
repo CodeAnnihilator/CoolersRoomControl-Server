@@ -12,6 +12,7 @@
 		"quotes": ["error", "single"],
 		"semi": ["error", "always"],
 		"comma-dangle": "error",
+		"newline-before-return": "error",
 		"no-cond-assign": ["error", "always"],
 		"object-curly-spacing": ["error", "never"],
 		"no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 1 }]

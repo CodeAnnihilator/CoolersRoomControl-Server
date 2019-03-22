@@ -1,8 +1,7 @@
-import promiseRouter from 'express-promise-router';
-
 import controller from './controller';
+import {Router} from 'express';
 
-const router = new promiseRouter();
+const router = new Router();
 
 router.route('/rooms')
 	.get(controller.getRooms)
@@ -13,6 +12,6 @@ router.route('/rooms/:roomId')
 	.patch(controller.updateRoom);
 
 router.route('/rooms/:roomId/coolers')
-	.post(controller.saveCoolerInRoom);
+	.post(controller.saveCoolersInRoom);
 
 export default router;

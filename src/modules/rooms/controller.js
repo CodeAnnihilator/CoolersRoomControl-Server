@@ -2,43 +2,65 @@ import Room from './model';
 import Cooler from '../coolers/model';
 
 const getRooms = async (_, res) => {
-	const rooms = await Room.find({});
-	res.status(200).json(rooms);
+	try {
+		const rooms = await Room.find({});
+
+		return res.status(200).json(rooms);
+	} catch (error) {
+		return res.status(400).json({error: 'Cannot get rooms'});
+	}
+
 };
 
 const saveRoom = async (req, res) => {
-	const newRoom = new Room(req.body);
-	const room = await newRoom.save();
-	res.status(200).json(room);
+	try {
+		const room = await new Room(req.body).save();
+
+		return res.status(200).json(room);
+	} catch (error) {
+		return res.status(400).json({error: 'Cannot save room'});
+	}
 };
 
 const getRoom = async (req, res) => {
-	const {roomId} = req.params;
-	const room = await Room.findById(roomId);
-	res.status(200).json(room);
+	try {
+		const {roomId} = req.params;
+		const room = await Room.findById(roomId);
+
+		return res.status(200).json(room);
+	} catch (error) {
+		return res.status(400).json({error: `Cannot get room by id: ${req.params.roomId}`});
+	}
 };
 
 const updateRoom = async (req, res) => {
-	const {roomId} = req.params;
-	const newRoom = req.body;
-	await Room.findByIdAndUpdate(roomId, newRoom);
-	res.status(200).json({success: true});
+	try {
+		const {roomId} = req.params;
+		const newData = req.body;
+		await Room.findByIdAndUpdate(roomId, newData);
+
+		return res.status(200).json({success: true});
+	} catch (error) {
+		res.status(400).json({error: `Cannot update room with id: ${req.params.roomId}`});
+	}
 };
 
-const saveCoolerInRoom = async (req, res) => {
-	const {roomId} = req.params;
-	const coolersIds = req.body.coolers;
+const saveCoolersInRoom = async (req, res) => {
+	try {
+		const {roomId} = req.params;
+		const coolersIds = req.body.coolers;
+		const room = await Room.findOneAndUpdate({_id: roomId}, {coolers: coolersIds});
 
-	const coolers = await Cooler.find({_id: {$in: coolersIds}});
-	const room = await Room.findById(roomId);
+		await Cooler.updateMany(
+			{_id: {$in: coolersIds}},
+			{$set: {room: room._id}},
+		);
 
-	coolers.forEach(cooler => cooler.room = room);
-	await Cooler.updateMany(coolers);
-
-	room.coolers = coolers.map(cooler => cooler._id);
-	await room.save();
-
-	res.status(200).json(room);
+		return res.status(200).json(room);
+	}
+	catch (error) {
+		res.status(400).json({error: 'Cannot save coolers at room'});
+	}
 };
 
 export default {
@@ -46,5 +68,5 @@ export default {
 	saveRoom,
 	getRoom,
 	updateRoom,
-	saveCoolerInRoom
+	saveCoolersInRoom
 };

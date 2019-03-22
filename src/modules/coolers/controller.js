@@ -1,27 +1,47 @@
 import Cooler from './model';
 
 const getCoolers = async (_, res) => {
-	const coolers = await Cooler.find({});
-	res.status(200).json(coolers);
+	try {
+		const coolers = await Cooler.find({});
+
+		return res.status(200).json(coolers);
+	} catch (error) {
+		return res.status(400).json({error: 'Cannot get coolers'});
+	}
 };
 
 const saveCooler = async (req, res) => {
-	const coolerInstance = new Cooler(req.body);
-	const newCooler = await coolerInstance.save();
-	res.status(200).json(newCooler);
+	try {
+		const newCooler = await new Cooler(req.body).save();
+
+		return res.status(200).json(newCooler);
+	} catch (error) {
+		return res.status(400).json({error: 'Cannot get coolers'});
+	}
+
 };
 
 const getCoolerByID = async (req, res) => {
-	const {coolerId} = req.params;
-	const cooler = await Cooler.findById(coolerId);
-	res.status(200).json(cooler);
+	try {
+		const cooler = await Cooler.findById(req.params.coolerId);
+
+		return res.status(200).json(cooler);
+	} catch (error) {
+		return res.status(400).json({error: `Cannot get cooler by id: ${req.params.coolerId}`});
+	}
+
 };
 
 const updateCoolerByID = async (req, res) => {
-	const {coolerId} = req.params;
-	const newCooler = req.body;
-	await Cooler.findByIdAndUpdate(coolerId, newCooler);
-	res.status(200).json({success: true});
+	try {
+		const {coolerId} = req.params;
+		const newCooler = req.body;
+		await Cooler.findByIdAndUpdate(coolerId, newCooler);
+
+		return res.status(200).json({success: true});
+	} catch (error) {
+		return res.status(400).json({error: `Cannot find and update cooler by id: ${req.params.coolerId}`});
+	}
 };
 
 export default {
