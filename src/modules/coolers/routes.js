@@ -1,7 +1,7 @@
-import promiseRouter from 'express-promise-router';
 import controller from './controller';
+import {Router} from 'express';
 
-const router = new promiseRouter();
+const router = new Router();
 
 router.route('/coolers')
 	.get(controller.getCoolers)
